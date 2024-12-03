@@ -1,0 +1,51 @@
+import java.util.*;
+
+public class CountOccurrenceOfWords {
+    public static void main(String[] args) {
+        
+        String text = "Good morning. Have a good class. " +
+                "Have a good visit. Have fun!";
+
+        
+        Map<String, Integer> map = new HashMap<>();
+
+        String[] words = text.split("[\\s+\\p{P}]");
+        for (int i = 0; i < words.length; i++) {
+            String key = words[i].toLowerCase();
+
+            if (key.length() > 0) {
+                map.put(key, map.getOrDefault(key, 0) + 1);
+            }
+        }
+
+        
+        List<WordOccurrence> wordOccurrences = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            wordOccurrences.add(new WordOccurrence(entry.getKey(), entry.getValue()));
+        }
+
+        
+        Collections.sort(wordOccurrences);
+
+        
+        wordOccurrences.forEach(word -> System.out.println(word.word + "\t" + word.count));
+    }
+}
+
+class WordOccurrence implements Comparable<WordOccurrence> {
+    String word;
+    int count;
+
+    WordOccurrence(String word, int count) {
+        this.word = word;
+        this.count = count;
+    }
+
+    @Override
+    public int compareTo(WordOccurrence other) {
+        return Integer.compare(this.count, other.count);
+    }
+}
+
+
+	
